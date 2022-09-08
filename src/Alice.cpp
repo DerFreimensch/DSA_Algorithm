@@ -22,7 +22,7 @@ int Alice::MyNOD(int a, int b)
     return a + b;
 }
 
-int Alice::my_powmod (int a, int b, int p) {
+int Alice::FMP (int a, int b, int p) {
     int res = 1;
     while (b)
         if (b & 1)
@@ -47,19 +47,19 @@ int Alice::my_generator (int p) {
     for (int res=2; res<=p; ++res) {
         bool ok = true;
         for (std::size_t i=0; i<fact.size() && ok; ++i)
-            ok &= my_powmod (res, phi / fact[i], p) != 1;
+            ok &= FMP(res, phi / fact[i], p) != 1;
         if (ok and MyNOD(res, n)==1)  return res;
     }
     return -1;
 }
 
 int Alice::createAndSend() {
-    this->A = (unsigned long long)std::pow(g, a) % p;
+    this->A = Alice::FMP(g, a, p);
     std::cout << "Alice create open key:  " << this->A << std::endl;
     return this->A;
 }
 
 void Alice::takeOpenKey(int key) {
-    this->s = (unsigned long long)std::pow(key, a) % p;
+    this->s = Alice::FMP(key, a, p);
     std::cout << "Alice secure key:  " << this->s << std::endl << std::endl;
 }

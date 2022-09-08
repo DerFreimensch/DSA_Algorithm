@@ -5,7 +5,7 @@
 #ifndef DSA_ALGORITHM_ALICE_H
 #define DSA_ALGORITHM_ALICE_H
 
-#include <Vector>
+#include <vector>
 #include <iostream>
 #include <cmath>
 
@@ -20,7 +20,7 @@ private:
 public:
     Alice(int keyA, int p);
     static int my_generator (int p);
-    static int my_powmod (int a, int b, int p);
+    static int FMP (int a, int b, int p);
     static int MyNOD(int a, int b);
     int createAndSend();
     void takeOpenKey(int key);

@@ -14,13 +14,13 @@ private:
     int p;
     int g;
     int b;
-    int s;
+    int s{};
     int B;
 
 public:
     Bob(int keyB, int p);
     static int my_generator (int p);
-    static int my_powmod (int a, int b, int p);
+    static int FMP (int a, int b, int p);
     static int MyNOD(int a, int b);
     int createAndSend();
     void takeOpenKey(int key);

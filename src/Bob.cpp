@@ -4,7 +4,7 @@
 
 #include "../hdr/Bob.h"
 
-Bob::Bob(int keyB, int p): p(p), b(keyB), s(s) {
+Bob::Bob(int keyB, int p): p(p), b(keyB){
     this->g = my_generator(p);
     this->B = 0;
     //std::cout << g;
@@ -22,7 +22,7 @@ int Bob::MyNOD(int a, int b)
     return a + b;
 }
 
-int Bob::my_powmod (int a, int b, int p) {
+int Bob::FMP (int a, int b, int p) {
     int res = 1;
     while (b)
         if (b & 1)
@@ -47,19 +47,21 @@ int Bob::my_generator (int p) {
     for (int res=2; res<=p; ++res) {
         bool ok = true;
         for (std::size_t i=0; i<fact.size() && ok; ++i)
-            ok &= my_powmod (res, phi / fact[i], p) != 1;
+            ok &= FMP(res, phi / fact[i], p) != 1;
         if (ok and MyNOD(res, n)==1)  return res;
     }
     return -1;
 }
 
 int Bob::createAndSend() {
-    this->B = (long long)std::pow(g, b) % p;
+    this->B = Bob::FMP(g, b, p);
     std::cout << "Bob create open key:  " << this->B << std::endl;
     return this->B;
 }
 
 void Bob::takeOpenKey(int key) {
-    this->s = (long long)std::pow(key, b) % p;
+    this->s = Bob::FMP(key, b, p);
     std::cout << "Bob secure key:  " << this->s << std::endl << std::endl;
 }
+
+
